@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+  <div class="form-container">
+    <h2>Login</h2>
+    {% if token %}
+      <div>
+        <strong>Your token:</strong>
+        <pre>{{ token }}</pre>
+      </div>
+    {% else %}
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+      </form>
+      {% if form.errors %}
+        <div class="error">
+          <p>Invalid username or password.</p>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}
