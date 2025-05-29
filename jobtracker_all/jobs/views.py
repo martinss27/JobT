@@ -1,7 +1,9 @@
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import JobApplicationFilter
 from .serializers import JobApplicationSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import JobApplication
@@ -19,14 +21,15 @@ class JobApplicationCreateView(generics.CreateAPIView):
         next_user_job_id = (last_job.user_job_id + 1) if last_job else 1
         serializer.save(user=user, user_job_id=next_user_job_id)
 
-class JobApplicationListView(APIView):
+class JobApplicationListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = JobApplicationSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = JobApplicationFilter
 
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
-
+    def get_queryset(self):
+        return JobApplication.objects.filter(user=self.request.user)
+    
 class JobApplicationDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = JobApplicationSerializer
     permission_classes = [IsAuthenticated]

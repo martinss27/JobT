@@ -22,6 +22,8 @@ class JobApplication(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     applied_date = models.DateField(auto_now=True)
     notes = models.TextField(blank=True)
+    interview_feedback = models.TextField(blank=True)
+    next_step = models.TextField(blank=True)
     
     class Meta:
         unique_together = ('user', 'user_job_id')
