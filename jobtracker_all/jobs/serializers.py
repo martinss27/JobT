@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import JobApplication, User
-from rest_framework.fields import SerializerMethodField
 
 class JobApplicationSerializer(serializers.ModelSerializer):
     user_job_id = serializers.IntegerField(read_only=True)

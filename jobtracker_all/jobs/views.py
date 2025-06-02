@@ -1,10 +1,7 @@
 from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import generics
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import JobApplicationFilter
-from .serializers import JobApplicationSerializer, UserSerializer
+from .serializers import JobApplicationSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import JobApplication
 
