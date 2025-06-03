@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .filters import JobApplicationFilter
 from .serializers import JobApplicationSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from .models import JobApplication
 
 class JobApplicationCreateView(generics.CreateAPIView):
@@ -23,6 +24,7 @@ class JobApplicationListView(generics.ListAPIView):
     serializer_class = JobApplicationSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = JobApplicationFilter
+    parser_classes = (MultiPartParser, FormParser)
 
     def get_queryset(self):
         return JobApplication.objects.filter(user=self.request.user)

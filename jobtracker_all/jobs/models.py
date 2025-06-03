@@ -19,6 +19,7 @@ class JobApplication(models.Model):
     title = models.CharField(max_length=100)
     company = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
+    cv = models.FileField(upload_to='cv/', blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     applied_date = models.DateField(auto_now=True)
     notes = models.TextField(blank=True)
