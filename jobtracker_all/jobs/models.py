@@ -23,6 +23,7 @@ class JobApplication(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     applied_date = models.DateField(auto_now=True)
     notes = models.TextField(blank=True)
+    interview_date = models.DateTimeField(blank=True, null=True)
     interview_feedback = models.TextField(blank=True)
     next_step = models.TextField(blank=True)
     

@@ -6,9 +6,9 @@ class JobApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = JobApplication
-        fields = ['id', 'user_job_id', 
+        fields = ['user_job_id', 
                   'title', 'company', 'position', 'cv', 'status', 
-                  'applied_date', 'notes', 'interview_feedback', 
+                  'applied_date', 'notes', 'interview_date', 'interview_feedback', 
                   'next_step']
         read_only_fields = ['id']
 

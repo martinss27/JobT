@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     'django_filters',
     
     
-    'jobs',
     'users',
-    'core',
+
+    'jobs.apps.JobsConfig',
+    'core.apps.CoreConfig',
 
 ]
 
