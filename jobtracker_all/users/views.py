@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer
-from django.contrib.auth import get_user_model, authenticate, login
+from django.contrib.auth import get_user_model, authenticate, login, logout
 from django import forms
 
-User = get_user_model() #get_user_model is a function that returns the user model that is currently active in the project. This is useful for projects that use a custom user model, as it allows you to avoid hardcoding the user model name.
+User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -15,15 +15,23 @@ class RegisterView(generics.CreateAPIView):
 
 class LoginView(APIView):
     def post(self,request):
-        serializer = LoginSerializer(data=request.data) #serializer takes the data from the request and passes it to the LoginSerializer
-        if serializer.is_valid(): #checks if the data is valid according to the rules of loginserializer
-            user = serializer.validated_data # after is_valid, confirm the user, put their information into serializer.validated_data
-            token, created = Token.objects.get_or_create(user=user) #looks for a token for this user, if it doesn't exist, creates a new one (getorcreate)
+        serializer = LoginSerializer(data=request.data) 
+        if serializer.is_valid(): 
+            user = serializer.validated_data 
+            token, created = Token.objects.get_or_create(user=user)
             print('token:', token)
             return Response({'token': token.key})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class LogoutView(APIView):
+    def post(self,request):
+        request.user.auth_token.delete()
+        logout(request)
+        return Response({"detail": "Logout completed successfully."}, status=status.HTTP_200_OK)
 
+
+
+# (django registration and login views using forms)
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
